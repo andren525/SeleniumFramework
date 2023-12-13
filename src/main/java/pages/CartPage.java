@@ -1,0 +1,39 @@
+package pages;
+
+import drivers.DriverSingleton;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+public class CartPage {
+    private WebDriver driver;
+
+    public CartPage(){
+        driver = DriverSingleton.getDriver();
+        PageFactory.initElements(driver,this);
+    }
+
+    @FindBy(id = "checkout")
+    private WebElement checkOutButton;
+
+    @FindBy(css = "#header_container > div.header_secondary_container > span")
+    private WebElement title;
+    public boolean isLoaded(){
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(checkOutButton));
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    public void proceedToCheckOut(){
+        checkOutButton.click();
+    }
+}

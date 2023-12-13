@@ -1,0 +1,161 @@
+Feature: Login
+
+Scenario: Login corretta 
+Given: L'utente è sulla pagina di login
+When: Utente inserisce le credenziali corrette
+Then: Uteten vede l'home page
+
+Scenario: Login con credenziali errate
+Given: Utente sulla pagina di login
+When: Inseriamo credenziali errate
+Then: Username o password errati
+
+Scenario: Login locked_out_user
+Given: Utente sulla pagina di login
+When: Inseriamo le credenziali corrette
+Then: Messaggio di "utente bloccato"
+
+
+Feature: Ordinamento Home Page
+
+Scenario: Ordinamento dei prodotti in ordine alfabetico 
+Given: Utente loggato
+When: Ordina dalla A alla Z  
+Then: I prodotti sono ordinati dalla A alla Z
+
+Scenario: Ordinamento dei prodotti in ordine alfabetico inverso
+Given: Utente loggato
+When: Ordina dalla Z alla A
+Then: I prodotti sono ordinati dalla Z alla A
+
+Scenario: Ordinamento dei prodotti per prezzo crescente
+Given: utente loggato
+When: Ordina per prezzo crescente
+Then: I prodotti sono ordinati per prezzo dal più basso al più alto
+
+Scenario: Ordinamento dei prodotti per prezzo decrescente
+Given: utente loggato
+When: Ordina per prezzo decrescente
+Then: I prodotti sono ordinati per prezzo dal più basso al più alto
+
+
+Feature: Menù Hamburger 
+
+Scenario: Rimuovi tutti i prodotti dal carrello
+Given: utente loggato
+When: vai nel menù
+And: Azzera il carrello
+Then: Visualizza il carrello vuoto
+
+Scenario: Uscire dall'account
+Given: utente loggato
+When: vai nel menù
+And: Esci dall'account
+Then: Visualizza pagina di login
+
+
+Feature: Social
+
+Scenario: Aprire la pagina twitter del negozio
+Given: Utente loggato
+When: Acceddi alla pagina twitter
+Then: Visualizza la pagina twitter del negozio
+
+Scenario: Aprire la pagina linkedln del negozio
+Given: Utente loggato
+When: Acceddi alla pagina linkedln
+Then: Visualizza la pagina linkedln del negozio
+
+Scenario: Aprire la pagina facebook del negozio
+Given: Utente loggato
+When: Acceddi alla pagina facebook
+Then: Visualizza la pagina facebook del negozio
+
+
+Feature: Dettagli prodotto
+
+Scenario: Dettaglio prodotto tramite immagine
+Given: utente loggato
+When: Seleziona immagine prodotto desiderato
+Then: Visualizza dettaglio del prodotto
+
+Scenario: Dettaglio prodotto tramite titolo da Home page
+Given: utente loggato
+When: Seleziona titolo del prodotto desiderato
+Then: Visualizza dettaglio del prodotto
+
+Scenario: Dettaglio prodotto tramite titolo da carrello
+Given: Sei nel carrello
+When: Seleziona il titolo del prodotto da vedere il dettaglio
+Then: Visualizza dettaglio del prodotto
+
+
+Feature: Tornare alla homepage
+
+Scenario: Tornare alla homepage 
+Given: Utente loggato
+When: Seleziona il menù
+And: Torna alla homepage
+Then: Visualizza home page
+
+Scenario: Tornare alla homepage da dettaglio prodotto
+Given: Sei nella pagina di dettaglio
+When: Torna alla home page
+Then: Visualizza home page
+
+Scenario: Tornare alla homepage dal carrello
+Given: Sei nel carrello
+When: Torna alla homepage
+Then: Visualizza home page
+
+Scenario: Tornare alla homepage durante il checkout
+Given: Stai effettuando il checkout
+When: Annulla l'ordine
+Then: Visualizza home page
+
+Scenario: Tornare alla hompage dopo aver completato il checkout
+Given: Stai effettuando il checkout
+When: Ritorna alla home page
+Then: Visualizza home page
+
+
+Feature: Aggiungere un prodotto
+
+Scenario: Aggiunta di un prodotto al carrello dalla home page
+Given: Sei nella homepage
+When: Aggiungi un prodotto che desideri
+Then: Il carrello si aggiorna
+
+Scenario: Aggiunta di un prodotto al carrello dalla pagina di dettaglio
+Given: Sei nella pagina di detatglio
+When: Aggiungi quel prodotto al carrello
+Then: Il numero del carrello si aggiorna
+
+
+Feature: Rimozione di un prodotto 
+
+Scenario: Rimozione di un prodotto del carrello dalla home page
+Given: Hai un prodotto nel carrello
+When: Rimuovi quel prodotto
+Then: Il carrello è aggiornato
+
+Scenario: Rimozione di un prodotto del carrello dalla pagina di dettaglio
+Given: Sei nella pagina di dettaglio del prodotto aggiunto
+When: Rimuovi il prodotto
+Then: Il numero del carrello è aggiornato
+
+Scenario: Rimozione di un prodotto dal carrello
+Given: Sei nella pagina del carrello 
+When: Quando rimuovi il prodotto
+Then: Il numero del carrello è aggiornato
+
+
+Feature: Checkout
+
+Scenario: Effettuare il checkout del carrello
+Given: Sei nel carrello
+When: Effettua il checkout
+And: Compili il form con i tuoi dati di 'Checkout: Your Information'
+And: Continua con il checkot
+And: Finisci il checkout
+Then: Il tuo ordine è stato ordinato
