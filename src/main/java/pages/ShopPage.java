@@ -57,6 +57,9 @@ public class ShopPage {
         cartButton.click();
 
     }
+    public String getNumberOfProducts (){
+        return numberOfProducts.getText();
+    }
 
 
 }

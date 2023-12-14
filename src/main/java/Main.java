@@ -1,4 +1,4 @@
-import drivers.DriverSingleton;
+/*import drivers.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import pages.*;
 import utils.Constants;
@@ -49,3 +49,4 @@ public class Main {
         DriverSingleton.closeObjectInstance();
     }
 }
+*/

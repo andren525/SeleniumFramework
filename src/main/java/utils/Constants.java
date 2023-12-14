@@ -15,6 +15,13 @@ public class Constants {
     public static final String LOCKED_MESSAGE = "lockedmessage";
     public static final String WRONG_USER = "wronguser";
     public static final String WRONG_USER_MESSAGE = "wrongusermessage";
+    public static final String NAME = "name";
+    public static final String  LAST_NAME = "lastname";
+    public static final String  POSTAL_CODE =  "postalcode";
+    public static final String SCREENSHOTS_FOLDER = "screenshots/";
+    public static final int SCREENSHOT_NAME_LENGTH = 4;
+    public static final String SCREENSHOT_EXTENSION = ".png";
+
 
 
 }

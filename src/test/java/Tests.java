@@ -28,12 +28,36 @@ public class Tests {
         driver = DriverSingleton.getDriver();
         signInPage = new SignInPage();
         shopPage =new ShopPage();
+        cartPage = new CartPage();
+        checkOutInfoPage = new CheckOutInfo();
+        checkOutOverviewPage = new CheckOutOverview();
+        checkOutCompletePage = new CheckOutComplete();
     }
     @Test
     public void TestAuthentication(){
         driver.get(Constants.URL);
         signInPage.logIn(frameworkProperties.getProperties(Constants.USERNAME), frameworkProperties.getProperties(Constants.PASSWORD));
         assertTrue(shopPage.isLoaded());
+    }
+    @Test
+    public void TestCart(){
+        driver.get(Constants.URL);
+        signInPage.logIn(frameworkProperties.getProperties(Constants.USERNAME), frameworkProperties.getProperties(Constants.PASSWORD));
+        shopPage.addToCart();
+        assertEquals(shopPage.getNumberOfProducts(),"1");
+    }
+    @Test
+    public void TestFullBuyingProcess(){
+        driver.get(Constants.URL);
+        signInPage.logIn(frameworkProperties.getProperties(Constants.USERNAME), frameworkProperties.getProperties(Constants.PASSWORD));
+        shopPage.addToCart();
+        shopPage.proceedToCart();
+        cartPage.proceedToCheckOut();
+        checkOutInfoPage.fillFormToContinue(frameworkProperties.getProperties(Constants.NAME),frameworkProperties.getProperties(Constants.LAST_NAME),frameworkProperties.getProperties(Constants.POSTAL_CODE));
+        checkOutOverviewPage.checkoutSubmit();
+        checkOutCompletePage.backToHome();
+        assertTrue(shopPage.isLoaded());
+
     }
     @Test
     public void TestLockedAuth(){
@@ -47,7 +71,6 @@ public class Tests {
         signInPage.logIn(frameworkProperties.getProperties(Constants.WRONG_USER),frameworkProperties.getProperties(Constants.PASSWORD));
         assertEquals(signInPage.getErrorMessage(), frameworkProperties.getProperties(Constants.WRONG_USER_MESSAGE));
     }
-
     @AfterClass
     public static void closeDriver(){
         driver.close();
