@@ -1,4 +1,4 @@
-package utils;
+package automation.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class ConfigurationProperties {
     @Value("${passwd}")
     private String password;
 
-    @Value("${username}")
+    @Value("${nomeutente}")
     private String username;
 
     public String getBrowser() {
