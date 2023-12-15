@@ -17,6 +17,17 @@ public class ConfigurationProperties {
     @Value("${nomeutente}")
     private String username;
 
+    @Value("${lockedmessage}")
+    private String lockedmessage;
+    @Value("${wrongusermessage}")
+    private String wrongusermessage;
+
+    @Value("${missingusernamemessage}")
+    private String missingusernamemessage;
+
+    @Value("${missingpasswordmessage}")
+    private String missingpasswordmessage;
+
     public String getBrowser() {
         return browser;
     }
@@ -40,5 +51,18 @@ public class ConfigurationProperties {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    public String getMessage(String message){
+        switch (message){
+            case "lockedmessage":
+                return lockedmessage;
+            case "wrongusermessage":
+                return wrongusermessage;
+            case "missingpasswordmessage":
+                return missingpasswordmessage;
+            case "missingusernamemessage"    :
+                return missingusernamemessage;
+            default:
+                return "nostringfound";
+        }
+    }
 }
