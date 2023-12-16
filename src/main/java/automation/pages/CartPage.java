@@ -23,6 +23,13 @@ public class CartPage {
 
     @FindBy(css = "#header_container > div.header_secondary_container > span")
     private WebElement title;
+
+    @FindBy(css = "#shopping_cart_container > a > span")
+    private WebElement numberOfProducts;
+
+    @FindBy(id = "remove-sauce-labs-backpack")
+    private WebElement removeBackpackButton;
+
     public boolean isLoaded(){
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -38,4 +45,19 @@ public class CartPage {
         wait.until(ExpectedConditions.elementToBeClickable(checkOutButton));
         checkOutButton.click();
     }
+    public void removeBackpack(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(removeBackpackButton));
+        removeBackpackButton.click();
+
+    }
+    public String getNumberOfProducts (){
+
+        try {
+            return numberOfProducts.getText();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

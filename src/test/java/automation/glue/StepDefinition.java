@@ -6,6 +6,7 @@ import automation.drivers.DriverSingleton;
 import automation.pages.*;
 import automation.utils.ConfigurationProperties;
 import automation.utils.Constants;
+import automation.utils.Utils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -30,6 +31,8 @@ public class StepDefinition {
     private WebDriver driver;
     private SignInPage signInPage;
     private ShopPage shopPage;
+    private ItemPage backpackPage;
+    private CartPage cartPage;
 
     @Autowired
     ConfigurationProperties configurationProperties;
@@ -39,7 +42,8 @@ public class StepDefinition {
         DriverSingleton.getInstance(configurationProperties.getBrowser());
         signInPage = new SignInPage();
         shopPage = new ShopPage();
-
+        backpackPage = new ItemPage();
+        cartPage = new CartPage();
     }
 
     @Given("^I go to the Website")
@@ -47,6 +51,7 @@ public class StepDefinition {
         driver = DriverSingleton.getDriver();
         driver.get(Constants.URL);
     }
+
     @When("I specify my username as {string} and my password as {string}")
     public void iSpecifyMyUsernameAsUsernameAndMyPasswordAsPassword(String username, String password) {
         signInPage.logIn(username, password);
@@ -61,7 +66,6 @@ public class StepDefinition {
     public void iExpectValidationMessageAsMessageIsDisplayed(String message) {
         assertEquals(signInPage.getErrorMessage(),configurationProperties.getMessage(message));
     }
-
 
     @Given("I am logged with username as {string} and password as {string}")
     public void iAmLoggedWithUsernameAsStandard_userAndPassword(String username,String password) {
@@ -90,4 +94,58 @@ public class StepDefinition {
         DriverSingleton.closeObjectInstance();
     }
 
+
+    @When("I go to the item page")
+    public void iGoToTheItemPage() {
+        shopPage.goToItemPage("Sauce Labs Backpack");
+
+    }
+
+    @And("I add the item to the cart")
+    public void iAddTheItemToTheCart() {
+        backpackPage.addtocart();
+    }
+
+    @Then("cart is been updated")
+    public void cartIsBeenUpdated() {
+        assertEquals("1",backpackPage.getNumberOfProducts());
+
+    }
+
+    @When("I remove the item")
+    public void iRemoveTheItem() {
+        shopPage.removefromcart();
+    }
+
+    @Then("cart displays no items")
+    public void cartDisplaysNoItems() {
+        assertEquals(null,shopPage.getNumberOfProducts());
+
+    }
+
+    @And("I am on the cart page")
+    public void iAmOnTheCartPage() {
+        shopPage.proceedToCart();
+        assertEquals(true,cartPage.isLoaded());
+    }
+
+    @When("I remove the item from the cart")
+    public void iRemoveTheItemFromTheCart() {
+        cartPage.removeBackpack();
+    }
+
+    @Then("There are no items displayed in the cart page")
+    public void thereAreNoItemsDisplayedInTheCartPage() {
+        assertEquals(null, cartPage.getNumberOfProducts());
+    }
+
+    @When("I remove the item from the item page")
+    public void iRemoveTheItemFromTheItemPage() {
+        backpackPage.removeFromCart();
+    }
+
+    @Then("there are no items displayed in the cart")
+    public void thereAreNoItemsDisplayedInTheCart() {
+        assertEquals(null,backpackPage.getNumberOfProducts());
+    }
 }

@@ -7,7 +7,10 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 public class Utils {
@@ -17,8 +20,10 @@ public class Utils {
     }
     public static boolean takeScreenshot(){
         File file = ((TakesScreenshot) DriverSingleton.getDriver()).getScreenshotAs(OutputType.FILE);
+        String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
+
         try {
-            FileCopyUtils.copy(file, new File(Constants.SCREENSHOTS_FOLDER + generateRandomString(Constants.SCREENSHOT_NAME_LENGTH) + Constants.SCREENSHOT_EXTENSION));
+            FileCopyUtils.copy(file, new File(Constants.SCREENSHOTS_FOLDER + time + Constants.SCREENSHOT_EXTENSION));
             return true;
         } catch (IOException e) {
             return false;
@@ -29,6 +34,7 @@ public class Utils {
         String seedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder sb = new StringBuilder();
         int i = 0;
+
         Random random = new Random();
         while(i < length){
             sb.append(seedChars.charAt(random.nextInt(seedChars.length())));

@@ -1,14 +1,17 @@
 package automation.pages;
 
 import automation.drivers.DriverSingleton;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import java.time.Duration;
+import java.util.List;
 
 public class ShopPage {
     private WebDriver driver;
@@ -22,6 +25,10 @@ public class ShopPage {
     @FindBy(id = "add-to-cart-sauce-labs-backpack")
     private WebElement addToCartButton;
 
+    @FindBy(id="remove-sauce-labs-backpack")
+    private WebElement removefromCartButton;
+
+
     @FindBy(css = "#shopping_cart_container > a > span")
     private WebElement numberOfProducts;
 
@@ -29,13 +36,15 @@ public class ShopPage {
     private WebElement cartButton;
 
     // WebElement for the element that contains all the shopping items in the shop page
-    @FindBy(id="inventory_container")
+    @FindBy(css = "#inventory_container > div")
     private WebElement productContainer;
+
+
 
     //this method check if the shop page is loaded
     public boolean isLoaded(){
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
             wait.until(ExpectedConditions.visibilityOf(productContainer));
             return true;
         } catch (Exception e) {
@@ -45,10 +54,13 @@ public class ShopPage {
     public void addToCart(){
         addToCartButton.click();
 
-        if (numberOfProducts.getText().equals("1"))
+        /*if (numberOfProducts.getText().equals("1"))
             System.out.println("The cart has been updated");
         else
-            System.out.println("The cart has not been updated");
+            System.out.println("The cart has not been updated");*/
+    }
+    public void removefromcart(){
+        removefromCartButton.click();
     }
 
     public void proceedToCart(){
@@ -57,8 +69,31 @@ public class ShopPage {
         cartButton.click();
 
     }
+
+    public WebElement getelementbytitle(String title){
+        List<WebElement> items = productContainer.findElements(By.className("inventory_item_description"));
+        WebElement item;
+        item = null;
+        for(WebElement element : items){
+            if (title.equals(element.findElement(By.tagName("a")).getText()))
+                item = element;
+        }
+        return item;
+    }
+
+    public void goToItemPage(String title){
+        WebElement backpackitem = getelementbytitle(title).findElement(By.tagName("a"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(backpackitem));
+        backpackitem.click();
+    }
     public String getNumberOfProducts (){
-        return numberOfProducts.getText();
+
+        try {
+            return numberOfProducts.getText();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
