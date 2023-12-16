@@ -22,9 +22,6 @@ public class ShopPage {
     }
 
 
-    @FindBy(id = "add-to-cart-sauce-labs-backpack")
-    private WebElement addToCartButton;
-
     @FindBy(id="remove-sauce-labs-backpack")
     private WebElement removefromCartButton;
 
@@ -51,16 +48,24 @@ public class ShopPage {
             return false;
         }
     }
-    public void addToCart(){
-        addToCartButton.click();
+    public void addToCart(String title){
+        WebElement element = getelementbytitle(title);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        WebElement item = element.findElement(By.className("btn_primary"));
+        wait.until(ExpectedConditions.elementToBeClickable(item));
+        item.click();
 
         /*if (numberOfProducts.getText().equals("1"))
             System.out.println("The cart has been updated");
         else
             System.out.println("The cart has not been updated");*/
     }
-    public void removefromcart(){
-        removefromCartButton.click();
+    public void removefromcart(String title){
+        WebElement element = getelementbytitle(title);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        WebElement item = element.findElement(By.className("btn_secondary"));
+        wait.until(ExpectedConditions.elementToBeClickable(item));
+        item.click();
     }
 
     public void proceedToCart(){
@@ -87,8 +92,8 @@ public class ShopPage {
         wait.until(ExpectedConditions.elementToBeClickable(backpackitem));
         backpackitem.click();
     }
-    public String getNumberOfProducts (){
 
+    public String getNumberOfProducts (){
         try {
             return numberOfProducts.getText();
         } catch (Exception e) {

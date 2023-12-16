@@ -81,7 +81,7 @@ public class StepDefinition {
 
     @When("I add an item to the cart")
     public void iAddAnItemToTheCart() {
-        shopPage.addToCart();
+        shopPage.addToCart("Sauce Labs Backpack");
     }
 
     @Then("an item is present in the cart")
@@ -114,7 +114,7 @@ public class StepDefinition {
 
     @When("I remove the item")
     public void iRemoveTheItem() {
-        shopPage.removefromcart();
+        shopPage.removefromcart("Sauce Labs Backpack");
     }
 
     @Then("cart displays no items")
