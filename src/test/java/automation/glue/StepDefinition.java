@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import javax.swing.*;
 import java.io.DataInput;
 import java.sql.Driver;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -44,6 +45,11 @@ public class StepDefinition {
         shopPage = new ShopPage();
         backpackPage = new ItemPage();
         cartPage = new CartPage();
+    }
+
+    @After
+    public void closeinstance(){
+        DriverSingleton.closeObjectInstance();
     }
 
     @Given("^I go to the Website")
@@ -89,11 +95,6 @@ public class StepDefinition {
         assertEquals("1",shopPage.getNumberOfProducts());
 
     }
-    @After
-    public void closeinstance(){
-        DriverSingleton.closeObjectInstance();
-    }
-
 
     @When("I go to the item page")
     public void iGoToTheItemPage() {
@@ -127,6 +128,7 @@ public class StepDefinition {
     public void iAmOnTheCartPage() {
         shopPage.proceedToCart();
         assertEquals(true,cartPage.isLoaded());
+
     }
 
     @When("I remove the item from the cart")
@@ -147,5 +149,33 @@ public class StepDefinition {
     @Then("there are no items displayed in the cart")
     public void thereAreNoItemsDisplayedInTheCart() {
         assertEquals(null,backpackPage.getNumberOfProducts());
+    }
+
+    @When("I choose to sort the items by title from {string}")
+    public void iChooseToSortTheItemsInItemOrder(String order) {
+        shopPage.selectorder(order);
+    }
+
+    @Then("the items are sorted by title from {string}")
+    public void theItemsAreSortedFromItemOrder(String order) {
+
+        List<String> temp = shopPage.getOrderByTitles(order);
+
+        List<String> items = shopPage.getTitles();
+
+        assertEquals(temp,items);
+    }
+
+    @When("I choose to sort the items by price from {string}")
+    public void iChooseToSortTheItemsByPriceFromPriceOrder(String order) {
+        shopPage.selectorder(order);
+    }
+
+    @Then("the items are sorted by price from {string}")
+    public void theItemsAreSortedByPriceFromPriceOrder(String order) {
+        List<Double> temp = shopPage.getOrderByPrices(order);
+        List<Double> items = shopPage.getPrices();
+        assertEquals(temp,items);
+
     }
 }

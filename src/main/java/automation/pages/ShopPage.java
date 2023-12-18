@@ -7,10 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ShopPage {
@@ -36,7 +38,8 @@ public class ShopPage {
     @FindBy(css = "#inventory_container > div")
     private WebElement productContainer;
 
-
+    @FindBy(css = "#header_container > div.header_secondary_container > div > span > select")
+    private WebElement orderSelector;
 
     //this method check if the shop page is loaded
     public boolean isLoaded(){
@@ -91,6 +94,64 @@ public class ShopPage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(backpackitem));
         backpackitem.click();
+    }
+
+    public List<String> getTitles(){
+        List<String> titles = new ArrayList<String>();
+        List<WebElement> items = productContainer.findElements(By.className("inventory_item_name"));
+        for (WebElement element : items ){
+            titles.add(element.getText());
+        }
+        return titles;
+    }
+
+    public List<Double> getPrices(){
+        List<String> prices = new ArrayList<String>();
+        List<WebElement> items = productContainer.findElements(By.className("inventory_item_price"));
+        List<Double> numbers = new ArrayList<Double>();
+        for (WebElement element : items ){
+            prices.add(element.getText());
+        }
+        for (String price : prices){
+            numbers.add(Double.parseDouble(price.replace("$"," ").trim()));
+        }
+        return numbers;
+    }
+
+    public List<String> getOrderByTitles(String order){
+        List<String> titles = new ArrayList<String>();
+        titles = getTitles();
+        return switch (order) {
+            case "az" -> {
+                titles.sort(Comparator.naturalOrder());
+                yield titles;
+            }
+            case "za" -> {
+                titles.sort(Comparator.reverseOrder());
+                yield titles;
+            }
+            default -> null;
+        };
+    }
+    public List<Double> getOrderByPrices(String order){
+        List<Double> price = getPrices();
+        return switch (order) {
+            case "lohi" -> {
+                price.sort(Comparator.naturalOrder());
+                yield price;
+            }
+            case "hilo" -> {
+                price.sort(Comparator.reverseOrder());
+                yield price;
+            }
+            default -> null;
+        };
+    }
+
+
+    public void selectorder(String order){
+        Select select = new Select(orderSelector);
+        select.selectByValue(order);
     }
 
     public String getNumberOfProducts (){

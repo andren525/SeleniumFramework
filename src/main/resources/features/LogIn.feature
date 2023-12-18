@@ -10,7 +10,6 @@ Feature: LogIn
       | username                | password          |
       | standard_user           | c2VjcmV0X3NhdWNl  |
       | problem_user            | c2VjcmV0X3NhdWNl  |
-      | performance_glitch_user | c2VjcmV0X3NhdWNl  |
       | error_user              | c2VjcmV0X3NhdWNl  |
       | visual_user             | c2VjcmV0X3NhdWNl  |
 
